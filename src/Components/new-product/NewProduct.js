@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db } from "../../firebase/firebaseConfig";
 import Swal from "sweetalert2";
+import { saveImageProduct, sendFile } from "../../services/products";
 
 export const NewProduct = () => {
   const [imgURL, setImgURL] = useState("");
@@ -10,31 +8,19 @@ export const NewProduct = () => {
   // funcion para guardar imagen
   const handleFile = async (e) => {
     e.preventDefault();
-    const file = e.target.files[0];
-    const storage = getStorage();
-    const storageRef = ref(storage, file.name);
-
-    // subiendo archivo
-    await uploadBytes(storageRef, file);
-
     // obteniendo url de la imagen
-    const imageUrl = await getDownloadURL(ref(storage, file.name));
+    const imageUrl = await saveImageProduct(e);
     setImgURL(imageUrl);
   };
 
   // submited
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const nameFile = e.target.name.value;
-    const nota = e.target.description.value;
+    const description = e.target.description.value;
     const category = e.target.category.value;
 
-    await addDoc(collection(db, "products"), {
-      name: nameFile,
-      img: imgURL,
-      description: nota,
-      category: category,
-    });
+    sendFile(nameFile, imgURL, description, category);
 
     // Reset form
     e.target.reset();
@@ -83,12 +69,12 @@ export const NewProduct = () => {
                     <option value="" disabled>
                       Seleccione Categoria
                     </option>
-                    <option value="herramientas">herramientas</option>
-                    <option value="muebleria">muebleria</option>
-                    <option value="tuberias">tuberias</option>
-                    <option value="aseo">aseo</option>
-                    <option value="piscina">piscina</option>
-                    <option value="mascotas">mascotas</option>
+                    <option value="tools">herramientas</option>
+                    <option value="furniture">muebleria</option>
+                    <option value="pipelines">tuberias</option>
+                    <option value="cleaning">aseo</option>
+                    <option value="pool">piscina</option>
+                    <option value="pets">mascotas</option>
                   </select>
                 </div>
                 <div className="mb-2">

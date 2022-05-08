@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { route } from "../../routers/Routes";
 
 export const Navbar = () => {
   return (
@@ -20,12 +21,12 @@ export const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link to="/" className="nav-link">
+              <Link to={route.root} className="nav-link">
                 Lista de Productos
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/new-product" className="nav-link">
+              <Link to={route.newProduct} className="nav-link">
                 Crear Producto
               </Link>
             </li>

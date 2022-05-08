@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getDoc, updateDoc, doc } from "firebase/firestore";
-import { db } from "../../firebase/firebaseConfig";
+import { updateProduct, getProduct } from "../../services/products";
 
 export const EditProduct = () => {
   const [productName, setProductName] = useState("");
@@ -11,27 +10,17 @@ export const EditProduct = () => {
   const { id } = useParams();
 
   // update product
-  const update = async (e) => {
+  const update = (e) => {
     e.preventDefault();
-    const product = doc(db, "products", id);
-    const data = {
-      name: productName,
-      description: description,
-    };
-    await updateDoc(product, data);
+    updateProduct(productName, description, id);
     navigate("/");
   };
 
   // get product by id
   const getProductById = async (id) => {
-    const productById = await getDoc(doc(db, "products", id));
-    if (productById.exists()) {
-      console.log(productById.data());
-      setProductName(productById.data().name);
-      setDescription(productById.data().description);
-    } else {
-      console.log("El producto no existe");
-    }
+    const productById = await getProduct(id);
+    setProductName(productById.data().name);
+    setDescription(productById.data().description);
   };
 
   useEffect(() => {

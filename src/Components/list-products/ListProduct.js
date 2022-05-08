@@ -1,62 +1,75 @@
 import React, { useEffect, useState } from "react";
-import { collection, deleteDoc, doc, getDocs, query } from "firebase/firestore";
 import Swal from "sweetalert2";
-import { db } from "../../firebase/firebaseConfig";
 import { Link } from "react-router-dom";
+import {
+  deleteProductById,
+  getAllProducts,
+  deleteImageStorage,
+} from "../../services/products";
 
 export const ListProduct = () => {
   // Hooks
-  const [products, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
 
-  // Referencia a la db firestore
-  const productsCollection = collection(db, "products");
-
-  // Funcion para mostrar todos los docs
-  const getProducts = async () => {
-    const data = await getDocs(query(productsCollection));
-    const dataDocs = [];
-
-    data.forEach((item) => {
-      dataDocs.push({
-        id: item.id,
-        ...item.data(),
-      });
-    });
-
-    setProducts(dataDocs);
+  // all products
+  const getData = async () => {
+    const products = await getAllProducts();
+    setAllProducts(products);
   };
 
-  // Funcion para eliminar un doc
-  const deleteProduct = async (id) => {
-    const productDoc = doc(db, "products", id);
-    await deleteDoc(productDoc);
-    getProducts();
+  // Delete Function
+  const deleteProductId = (id) => {
+    deleteProductById(id);
+    getData();
   };
 
-  // Funcion de confirmacio de eliminar
-  const confirmDelete = (id) => {
+  // Funcion de confirmacio de eliminar sweetalert
+  const confirmDelete = (id, img) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "Estas seguro?",
+      text: "No podrás revertir esto!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Si, eliminarlo!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // llamamos la funcion para eliminar
-        deleteProduct(id);
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        // Get delete Function
+        deleteProductId(id);
+        deleteImageStorage(img);
+        Swal.fire("Eliminado!", "Su archivo ha sido eliminado.", "éxito");
       }
     });
   };
 
   // useEffect
   useEffect(() => {
-    getProducts();
+    getData();
     // eslint-disable-next-line
   }, []);
+
+  const requireProducts = allProducts.map((item) => (
+    <tr key={item.id}>
+      <td>{item.name}</td>
+      <td>
+        <Link
+          to={`/edit-product/${item.id}`}
+          className="btn btn-primary btn-sm"
+        >
+          Editar
+        </Link>
+        <button
+          onClick={() => {
+            confirmDelete(item.id, item.img);
+          }}
+          className="btn btn-danger btn-sm"
+        >
+          Borrar
+        </button>
+      </td>
+    </tr>
+  ));
 
   return (
     <div className="container mt-5">
@@ -66,35 +79,11 @@ export const ListProduct = () => {
             <table className="table table-hover">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Category</th>
-                  <th>Actions</th>
+                  <th>Nombre</th>
+                  <th>Editar/Eliminar</th>
                 </tr>
               </thead>
-              <tbody>
-                {products.map((item) => (
-                  <tr key={item.id}>
-                    <td>{item.name}</td>
-                    <td>{item.category}</td>
-                    <td>
-                      <Link
-                        to={`/edit-product/${item.id}`}
-                        className="btn btn-primary btn-sm"
-                      >
-                        Editar
-                      </Link>
-                      <button
-                        onClick={() => {
-                          confirmDelete(item.id);
-                        }}
-                        className="btn btn-danger btn-sm"
-                      >
-                        Borrar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+              <tbody>{requireProducts}</tbody>
             </table>
           </div>
         </div>

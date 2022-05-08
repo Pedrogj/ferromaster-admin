@@ -4,15 +4,16 @@ import { NewProduct } from "../Components/new-product/NewProduct";
 import { Navbar } from "../Components/navbar/Navbar";
 import { ListProduct } from "../Components/list-products/ListProduct";
 import { EditProduct } from "../Components/edit-product/EditProduct";
+import { route } from "./Routes";
 
 export const AppRouter = () => {
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/" element={<ListProduct />} />
-        <Route path="/new-product" element={<NewProduct />} />
-        <Route path="/edit-product/:id" element={<EditProduct />} />
+        <Route path={route.root} element={<ListProduct />} />
+        <Route path={route.newProduct} element={<NewProduct />} />
+        <Route path={route.editProduct} element={<EditProduct />} />
       </Routes>
     </BrowserRouter>
   );
