@@ -45,7 +45,8 @@ export const getAllProducts = async () => {
 export const deleteProductById = async (id) => {
   try {
     const productDoc = doc(db, "products", id);
-    await deleteDoc(productDoc);
+    const deleteById = await deleteDoc(productDoc);
+    return deleteById;
   } catch (error) {
     // console.log(error)
   }
