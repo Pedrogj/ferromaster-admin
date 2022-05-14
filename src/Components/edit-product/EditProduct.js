@@ -10,6 +10,18 @@ export const EditProduct = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const handleInputProduct = (e) => {
+    setProductName(e.target.value);
+  };
+
+  const handleInputDescription = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const handleInputPrice = (e) => {
+    setPrice(e.target.value);
+  };
+
   // update product
   const update = (e) => {
     e.preventDefault();
@@ -43,7 +55,7 @@ export const EditProduct = () => {
                     className="form-control"
                     type="text"
                     value={productName}
-                    onChange={(e) => setProductName(e.target.value)}
+                    onChange={handleInputProduct}
                     placeholder="Nombre del Producto"
                     required
                   />
@@ -53,7 +65,7 @@ export const EditProduct = () => {
                     className="form-control"
                     type="number"
                     value={price}
-                    onChange={(e) => setPrice(e.target.value)}
+                    onChange={handleInputPrice}
                     placeholder="Precio del Producto"
                     required
                   />
@@ -62,7 +74,7 @@ export const EditProduct = () => {
                   <textarea
                     className="form-control"
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={handleInputDescription}
                     placeholder="Descripcion de Producto"
                     cols="30"
                     rows="5"

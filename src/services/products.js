@@ -19,6 +19,7 @@ import { db } from "../firebase/firebaseConfig";
 
 // Reference db firestore
 const productsCollection = collection(db, "products");
+
 // Storage
 const storage = getStorage();
 
@@ -92,12 +93,13 @@ export const sendFile = async (
   price
 ) => {
   try {
+    const priceTotal = new Intl.NumberFormat().format(price);
     const files = await addDoc(collection(db, "products"), {
       name: nameFile,
       img: imgURL,
       description: description,
       category: category,
-      price: price,
+      price: priceTotal,
     });
 
     return files;
@@ -110,10 +112,11 @@ export const sendFile = async (
 export const updateProduct = async (productName, description, price, id) => {
   try {
     const product = doc(db, "products", id);
+    const productPrice = new Intl.NumberFormat().format(price);
     const data = {
       name: productName,
       description: description,
-      price: price,
+      price: productPrice,
     };
     const updateData = await updateDoc(product, data);
 
