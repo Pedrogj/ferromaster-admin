@@ -19,8 +19,9 @@ export const NewProduct = () => {
     const nameFile = e.target.name.value;
     const description = e.target.description.value;
     const category = e.target.category.value;
+    const price = e.target.price.value;
 
-    sendFile(nameFile, imgURL, description, category);
+    sendFile(nameFile, imgURL, description, category, price);
 
     // Reset form
     e.target.reset();
@@ -55,6 +56,15 @@ export const NewProduct = () => {
                     type="text"
                     name="name"
                     placeholder="Nombre del Producto"
+                    required
+                  />
+                </div>
+                <div className="mb-2">
+                  <input
+                    className="form-control"
+                    type="number"
+                    name="price"
+                    placeholder="Precio del Producto"
                     required
                   />
                 </div>

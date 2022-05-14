@@ -80,7 +80,6 @@ export const ListProduct = () => {
               <thead>
                 <tr>
                   <th>Nombre</th>
-                  <th>Editar/Eliminar</th>
                 </tr>
               </thead>
               <tbody>{requireProducts}</tbody>

@@ -84,13 +84,20 @@ export const deleteImageStorage = async (img) => {
 };
 
 // Submit file
-export const sendFile = async (nameFile, imgURL, description, category) => {
+export const sendFile = async (
+  nameFile,
+  imgURL,
+  description,
+  category,
+  price
+) => {
   try {
     const files = await addDoc(collection(db, "products"), {
       name: nameFile,
       img: imgURL,
       description: description,
       category: category,
+      price: price,
     });
 
     return files;
@@ -99,13 +106,14 @@ export const sendFile = async (nameFile, imgURL, description, category) => {
   }
 };
 
-// update function
-export const updateProduct = async (productName, description, id) => {
+// update product
+export const updateProduct = async (productName, description, price, id) => {
   try {
     const product = doc(db, "products", id);
     const data = {
       name: productName,
       description: description,
+      price: price,
     };
     const updateData = await updateDoc(product, data);
 

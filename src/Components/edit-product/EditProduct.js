@@ -5,6 +5,7 @@ import { updateProduct, getProduct } from "../../services/products";
 export const EditProduct = () => {
   const [productName, setProductName] = useState("");
   const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -12,7 +13,7 @@ export const EditProduct = () => {
   // update product
   const update = (e) => {
     e.preventDefault();
-    updateProduct(productName, description, id);
+    updateProduct(productName, description, price, id);
     navigate("/");
   };
 
@@ -21,6 +22,7 @@ export const EditProduct = () => {
     const productById = await getProduct(id);
     setProductName(productById.data().name);
     setDescription(productById.data().description);
+    setPrice(productById.data().price);
   };
 
   useEffect(() => {
@@ -43,6 +45,16 @@ export const EditProduct = () => {
                     value={productName}
                     onChange={(e) => setProductName(e.target.value)}
                     placeholder="Nombre del Producto"
+                    required
+                  />
+                </div>
+                <div className="mb-2">
+                  <input
+                    className="form-control"
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    placeholder="Precio del Producto"
                     required
                   />
                 </div>
