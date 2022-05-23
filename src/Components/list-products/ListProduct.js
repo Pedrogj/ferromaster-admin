@@ -54,20 +54,24 @@ export const ListProduct = () => {
       <td>{item.name}</td>
       <td>${item.price}</td>
       <td>
-        <Link
-          to={`/edit-product/${item.id}`}
-          className="btn btn-primary btn-sm"
-        >
-          Editar
-        </Link>
-        <button
-          onClick={() => {
-            confirmDelete(item.id, item.img);
-          }}
-          className="btn btn-danger btn-sm"
-        >
-          Borrar
-        </button>
+        <div style={{ display: "flex" }}>
+          <Link
+            to={`/edit-product/${item.id}`}
+            className="btn btn-primary btn-sm"
+          >
+            Editar
+          </Link>
+
+          <button
+            style={{ marginLeft: "5px" }}
+            onClick={() => {
+              confirmDelete(item.id, item.img);
+            }}
+            className="btn btn-danger btn-sm"
+          >
+            Borrar
+          </button>
+        </div>
       </td>
     </tr>
   ));
