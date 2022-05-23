@@ -52,6 +52,7 @@ export const ListProduct = () => {
   const requireProducts = allProducts.map((item) => (
     <tr key={item.id}>
       <td>{item.name}</td>
+      <td>${item.price}</td>
       <td>
         <Link
           to={`/edit-product/${item.id}`}
@@ -80,6 +81,7 @@ export const ListProduct = () => {
               <thead>
                 <tr>
                   <th>Nombre</th>
+                  <th>Precio</th>
                 </tr>
               </thead>
               <tbody>{requireProducts}</tbody>
