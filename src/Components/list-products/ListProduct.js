@@ -49,8 +49,9 @@ export const ListProduct = () => {
     // eslint-disable-next-line
   }, []);
 
-  const requireProducts = allProducts.map((item) => (
+  const requireProducts = allProducts.map((item, index) => (
     <tr key={item.id}>
+      <td>{index + 1}</td>
       <td>{item.name}</td>
       <td>${item.price}</td>
       <td>
@@ -78,12 +79,13 @@ export const ListProduct = () => {
 
   return (
     <div className="container mt-5">
-      <div className="row">
+      <div className="row d-flex justify-content-center">
         <div className="col">
           <div className="d-grid gap-2">
             <table className="table table-hover">
               <thead>
                 <tr>
+                  <th>#</th>
                   <th>Nombre</th>
                   <th>Precio</th>
                 </tr>

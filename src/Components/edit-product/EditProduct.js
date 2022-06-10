@@ -34,7 +34,8 @@ export const EditProduct = () => {
     const productById = await getProduct(id);
     setProductName(productById.data().name);
     setDescription(productById.data().description);
-    setPrice(productById.data().price);
+    setPrice(productById.data().price.replace(/\./g, ""));
+    // console.log(productById.data().price.replace(/\./g, ""));
   };
 
   useEffect(() => {
