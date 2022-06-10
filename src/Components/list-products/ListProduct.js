@@ -6,15 +6,27 @@ import {
   getAllProducts,
   deleteImageStorage,
 } from "../../services/products";
+import { InputSearch } from "../input-search/InputSearch";
+import { cleanSearchText } from "../../helpers/helpers";
 
 export const ListProduct = () => {
   // Hooks
   const [allProducts, setAllProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // all products
   const getData = async () => {
     const products = await getAllProducts();
     setAllProducts(products);
+  };
+
+  // Product search function
+  const search = (elements) => {
+    const text = cleanSearchText(searchTerm);
+
+    return elements.filter((element) =>
+      cleanSearchText(element.name).includes(text)
+    );
   };
 
   // Delete Function
@@ -49,8 +61,9 @@ export const ListProduct = () => {
     // eslint-disable-next-line
   }, []);
 
-  const requireProducts = allProducts.map((item) => (
+  const requireProducts = search(allProducts).map((item, index) => (
     <tr key={item.id}>
+      <td>{index + 1}</td>
       <td>{item.name}</td>
       <td>${item.price}</td>
       <td>
@@ -78,12 +91,14 @@ export const ListProduct = () => {
 
   return (
     <div className="container mt-5">
-      <div className="row">
+      <InputSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <div className="row d-flex justify-content-center">
         <div className="col">
           <div className="d-grid gap-2">
             <table className="table table-hover">
               <thead>
                 <tr>
+                  <th>#</th>
                   <th>Nombre</th>
                   <th>Precio</th>
                 </tr>
