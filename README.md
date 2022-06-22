@@ -21,6 +21,25 @@ npm install
 ```
 
 3. To start the server:
-   npm start
 
-## Screen All Products
+```bash
+npm start
+```
+
+---
+
+## Screen: All Products
+
+![](https://github.com/Pedrogj/ferromaster-admin/blob/main/img/allProducts.jpg)
+
+---
+
+## Screen: Add Product
+
+![](https://github.com/Pedrogj/ferromaster-admin/blob/main/img/AddProduct.jpg)
+
+---
+
+## Screen: Edit Product
+
+![](https://github.com/Pedrogj/ferromaster-admin/blob/main/img/EditProduct.jpg)
